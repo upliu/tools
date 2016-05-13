@@ -1,0 +1,29 @@
+#!/usr/bin/env php
+<?php
+
+if ($argc < 2) {
+	echo 'usage: add_host domain web_root', PHP_EOL;
+	exit(1);
+}
+
+
+$domain = $argv[1];
+if (!empty($argv[2])) { chdir($argv[2]); }
+$web_root = getcwd();
+
+$nginx_conf_path = '/Users/liu/vhosts/';
+$vhost_conf_tpl_file = $nginx_conf_path . '/VHOST_TPL';
+$vhost_conf_file = $nginx_conf_path . '/' . $domain . '.conf';
+
+$tpl = file_get_contents($vhost_conf_tpl_file);
+$conf= str_replace(['SERVER_NAME', 'ROOT'], [$domain, $web_root], $tpl);
+
+file_put_contents($vhost_conf_file, $conf);
+chmod($vhost_conf_file, 0666);
+passthru('nginx -s reload');
+
+passthru("chmod +x $web_root");
+
+file_put_contents('/etc/hosts', "\n127.0.0.1 $domain", FILE_APPEND);
+
+touch($domain);
