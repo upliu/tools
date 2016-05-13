@@ -1,10 +1,11 @@
 server {
-	autoindex on;
+	listen 80
 	server_name SERVER_NAME;
 	root ROOT;
+	autoindex on;
+	index index.html index.htm index.php;
 	location / {
 		try_files $uri $uri/ /index.php$is_args$args;
 	}
-	index index.html index.htm index.php;
 	include location_php;
 }

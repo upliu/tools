@@ -11,8 +11,8 @@ $domain = $argv[1];
 if (!empty($argv[2])) { chdir($argv[2]); }
 $web_root = getcwd();
 
-$nginx_conf_path = '/Users/liu/vhosts/';
-$vhost_conf_tpl_file = $nginx_conf_path . '/VHOST_TPL';
+$nginx_conf_path = '/usr/local/etc/nginx/vhosts';
+$vhost_conf_tpl_file = __DIR__ . '/VHOST_TPL';
 $vhost_conf_file = $nginx_conf_path . '/' . $domain . '.conf';
 
 $tpl = file_get_contents($vhost_conf_tpl_file);
