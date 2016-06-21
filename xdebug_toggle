@@ -1,0 +1,16 @@
+#!/usr/bin/env php
+
+<?php
+
+$iniFile = '/usr/local/etc/php/7.0/conf.d/ext-xdebug.ini';
+$str = file_get_contents($iniFile);
+if (strpos($str, ';zend_')) {
+	echo "enable xdebug...\n";
+	$str = str_replace(';zend_', 'zend_', $str);
+} else {
+	$str = str_replace('zend_', ';zend_', $str);
+	echo "disenable xdebug...\n";
+}
+file_put_contents($iniFile, $str);
+
+passthru("brew services restart homebrew/php/php70");

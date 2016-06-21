@@ -1,4 +1,4 @@
 location ~ \.php$ {
-	fastcgi_pass 127.0.0.1:10070;
+	fastcgi_pass 127.0.0.1:10053;
 	include fastcgi-php.conf;
 }

@@ -12,6 +12,10 @@ if (!empty($argv[2])) { chdir($argv[2]); }
 $web_root = getcwd();
 
 $nginx_conf_path = '/usr/local/etc/nginx/vhosts';
+if (file_exists($conf = __DIR__ . '/config.json')) {
+	$conf = json_decode(file_get_contents($conf), true);
+	$nginx_conf_path = $conf['add_vhost']['vhostsPath'];
+}
 $vhost_conf_tpl_file = __DIR__ . '/VHOST_TPL';
 $vhost_conf_file = $nginx_conf_path . '/' . $domain . '.conf';
 
@@ -20,10 +24,22 @@ $conf= str_replace(['SERVER_NAME', 'ROOT'], [$domain, $web_root], $tpl);
 
 file_put_contents($vhost_conf_file, $conf);
 chmod($vhost_conf_file, 0666);
-passthru('nginx -s reload');
+$nginx = binPath('nginx');
+passthru("$nginx -s reload");
 
 passthru("chmod +x $web_root");
 
 file_put_contents('/etc/hosts', "\n127.0.0.1 $domain", FILE_APPEND);
 
 touch($domain);
+
+function binPath($name)
+{
+	if (file_exists($conf = __DIR__ . '/config.json')) {
+		$conf = json_decode(file_get_contents($conf), true);
+		if (isset($conf['bin'][$name])) {
+			return $conf['bin'][$name];
+		}
+	}
+	return $name;
+}
