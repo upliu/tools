@@ -25,12 +25,12 @@ echo "\nDone\n";
 function download($url)
 {
     global $outputDir;
-    $file = preg_replace('#http(s)?://#', '', $url);
+    $file = preg_replace('#http(s)?://#i', '', $url);
     $filename = $outputDir . '/' . $file;
     $dir = dirname($filename);
     if (!is_dir($dir)) {
         mkdir($dir, 0777, true);
     }
     system("curl $url >> $filename");
-//    print("curl $url >> $filename\n\n");
+    print("curl $url >> $filename\n\n");
 }
