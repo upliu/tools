@@ -9,7 +9,7 @@ if (strpos($str, ';zend_')) {
 	$str = str_replace(';zend_', 'zend_', $str);
 } else {
 	$str = str_replace('zend_', ';zend_', $str);
-	echo "disenable xdebug...\n";
+	echo "disable xdebug...\n";
 }
 file_put_contents($iniFile, $str);
 
