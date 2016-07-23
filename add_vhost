@@ -31,7 +31,7 @@ passthru("chmod +x $web_root");
 
 file_put_contents('/etc/hosts', "\n127.0.0.1 $domain", FILE_APPEND);
 
-touch($domain);
+//touch($domain);
 
 function binPath($name)
 {
