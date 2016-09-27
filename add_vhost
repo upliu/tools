@@ -1,4 +1,4 @@
-#!/usr/bin/env php
+#!/usr/local/opt/php54/bin/php
 <?php
 
 if ($argc < 2) {
@@ -20,7 +20,7 @@ $vhost_conf_tpl_file = __DIR__ . '/VHOST_TPL';
 $vhost_conf_file = $nginx_conf_path . '/' . $domain . '.conf';
 
 $tpl = file_get_contents($vhost_conf_tpl_file);
-$conf= str_replace(['SERVER_NAME', 'ROOT'], [$domain, $web_root], $tpl);
+$conf = str_replace(['SERVER_NAME', 'ROOT'], [$domain, $web_root], $tpl);
 
 file_put_contents($vhost_conf_file, $conf);
 chmod($vhost_conf_file, 0666);

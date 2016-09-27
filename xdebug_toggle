@@ -2,15 +2,38 @@
 
 <?php
 
-$iniFile = '/usr/local/etc/php/7.0/conf.d/ext-xdebug.ini';
-$str = file_get_contents($iniFile);
-if (strpos($str, ';zend_')) {
-	echo "enable xdebug...\n";
-	$str = str_replace(';zend_', 'zend_', $str);
-} else {
-	$str = str_replace('zend_', ';zend_', $str);
-	echo "disable xdebug...\n";
-}
-file_put_contents($iniFile, $str);
+$enable = $argv[1];
+$version = $argv[2];
 
-passthru("brew services restart homebrew/php/php70");
+$iniFiles[54] = '/usr/local/etc/php/5.4/conf.d/ext-xdebug.ini';
+$iniFiles[70] = '/usr/local/etc/php/7.0/conf.d/ext-xdebug.ini';
+
+toggle_xdebug($version, $enable);
+
+function toggle_xdebug($version, $action)
+{
+	global $iniFiles;
+	$ver = $version;
+	$enable = $action == 'enable';
+	$iniFile = $iniFiles[$version];
+	echo $ver.PHP_EOL;
+	$str = file_get_contents($iniFile);
+	$change = 0;
+	if (strpos($str, ';zend_')) { // has disabled
+		if ($enable) {
+			echo "enable xdebug...\n";
+			$str = str_replace(';zend_', 'zend_', $str);
+			$change = 1;
+		}
+	} else {
+		if (!$enable) {
+			$str = str_replace('zend_', ';zend_', $str);
+			echo "disable xdebug...\n";
+			$change = 1;
+		}
+	}
+	if ($change) {
+		file_put_contents($iniFile, $str);
+		passthru("brew services restart homebrew/php/php".$ver);
+	}
+}

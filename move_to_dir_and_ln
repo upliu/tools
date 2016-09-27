@@ -1,0 +1,8 @@
+#!/usr/bin/env php
+<?php
+$from = realpath($argv[1]);
+$destDir = realpath(isset($argv[2]) ? $argv[2] : '/Users/liu/Library/Logs/UPLIU');
+$newName = trim(implode('.', array_reverse(explode('/', $from))), '/');
+$to = "$destDir/$newName";
+rename($from, $to);
+symlink($to, $from);

@@ -4,6 +4,6 @@ DIR=$(cd `dirname $0`; pwd)
 TARGET_DIR=$(pwd)
 
 cd "'$DIR'"
-for f in fastcgi-php.conf location_php70 location_php53 do
+for f in fastcgi-php.conf location_php70 location_php53 location_php54 do
 	ln -s "'$DIR/$f'" "'$TARGET_DIR/$f'"
 done
