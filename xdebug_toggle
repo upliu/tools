@@ -4,6 +4,11 @@
 
 $enable = $argv[1];
 $version = $argv[2];
+if (is_numeric($enable)) {
+	$a = $enable;
+	$enable = $version;
+	$version = $a;
+}
 
 $iniFiles[54] = '/usr/local/etc/php/5.4/conf.d/ext-xdebug.ini';
 $iniFiles[70] = '/usr/local/etc/php/7.0/conf.d/ext-xdebug.ini';

@@ -1,9 +1,10 @@
 #!/bin/sh
 
-DIR=$(cd `dirname $0`; pwd)
-TARGET_DIR=$(pwd)
+DIR=$(pwd)
+TARGET_DIR=$1
 
-cd "'$DIR'"
-for f in fastcgi-php.conf location_php70 location_php53 location_php54 do
-	ln -s "'$DIR/$f'" "'$TARGET_DIR/$f'"
+cd "$TARGET_DIR"
+for f in fastcgi-php.conf location_php70 location_php53 location_php54
+do
+	ln -s "$DIR/$f" "$TARGET_DIR/$f"
 done
